@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+
+import ShoppingList from "./ShoppingList";
+import ShoppingItemForm from "./ShoppingItemForm";
 
 function App() {
+  const [items, setItems] = useState([{
+    id: 1,
+    name: "Bananen",
+    quantity: 3
+  }]);
+
+  const handleAddItem = (item) => {
+    const newItems = [...items, item];
+    setItems(newItems);
+  }
+
+  const handleUpdateItem = (item) => {
+    const index = items.findIndex((i) => i.id === item.id);
+
+    const newItems = [...items];
+    newItems[index] = item;
+    setItems(newItems);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ShoppingItemForm onSubmit={handleAddItem} />
+      <ShoppingList items={items} onUpdateItem={handleUpdateItem} />
+    </>
   );
 }
 

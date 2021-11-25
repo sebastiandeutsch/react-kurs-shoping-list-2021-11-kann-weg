@@ -1,8 +1,13 @@
-import { useRef } from 'react';
+import { observer } from "mobx-react-lite";
+
+import { useRef, useContext } from 'react';
+import ShoppingListStoreContext from "../stores/ShoppingListStore";
 
 let id = 2;
 
-export default function ShoppingItemForm({ onSubmit }) {
+export default observer(() => {
+  const shoppingListStore = useContext(ShoppingListStoreContext);
+
   const nameRef = useRef();
   const quantityRef = useRef();
   const handleAddItemClick = () => {
@@ -12,7 +17,9 @@ export default function ShoppingItemForm({ onSubmit }) {
       quantity: parseInt(quantityRef.current.value)
     }
 
-    onSubmit(item);
+    shoppingListStore.addItem(item);
+
+//    onSubmit(item);
   };
 
   return (
@@ -30,4 +37,4 @@ export default function ShoppingItemForm({ onSubmit }) {
       </div>
     </div>
   );
-}
+});

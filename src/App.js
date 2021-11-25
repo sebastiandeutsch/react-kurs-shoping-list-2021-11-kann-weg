@@ -1,34 +1,24 @@
-import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
 
 import ShoppingList from "./ShoppingList";
 import ShoppingItemForm from "./ShoppingItemForm";
+import ShoppingListStoreContext from './stores/ShoppingListStore';
 
 function App() {
-  const [items, setItems] = useState([{
-    id: 1,
-    name: "Bananen",
-    quantity: 3
-  }]);
-
-  const handleAddItem = (item) => {
-    const newItems = [...items, item];
-    setItems(newItems);
-  }
+  const shoppingListStore = useContext(ShoppingListStoreContext);
+  console.log( shoppingListStore );
 
   const handleUpdateItem = (item) => {
-    const index = items.findIndex((i) => i.id === item.id);
-
-    const newItems = [...items];
-    newItems[index] = item;
-    setItems(newItems);
+    shoppingListStore.updateItem(item);
   }
 
   return (
     <>
-      <ShoppingItemForm onSubmit={handleAddItem} />
-      <ShoppingList items={items} onUpdateItem={handleUpdateItem} />
+      <ShoppingItemForm />
+      <ShoppingList items={shoppingListStore.items} itemsCount={shoppingListStore.itemsCount} onUpdateItem={handleUpdateItem} />
     </>
   );
 }
 
-export default App;
+export default observer(App);

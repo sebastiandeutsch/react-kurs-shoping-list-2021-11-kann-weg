@@ -1,4 +1,6 @@
-export default function ShoppingListItem({ item, onUpdateItem }) {
+import { observer } from "mobx-react-lite";
+
+export default observer(({ item, onUpdateItem }) => {
   const handleIncreaseClick = () => {
     const newItem = {
       ...item,
@@ -26,4 +28,4 @@ export default function ShoppingListItem({ item, onUpdateItem }) {
       <button onClick={handleDecreaseClick}>-</button>
     </li>
   );
-}
+});
